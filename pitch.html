@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hezu — Roommate Life Steward · Product Showcase</title>
+  <style>
+    @page { size: A4; margin: 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      background: #ece7df;
+      font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+      color: #1f2a24;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .page {
+      width: 210mm;
+      height: 297mm;
+      page-break-after: always;
+      break-after: page;
+      position: relative;
+      overflow: hidden;
+      background: #f7f2ea;
+    }
+    .page:last-child { page-break-after: auto; }
+    .pad { padding: 12mm 14mm 11mm; height: 100%; display: flex; flex-direction: column; }
+
+    .eyebrow { font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase; color: #c45c26; font-weight: 700; }
+    h1 { font-size: 32px; line-height: 1.18; letter-spacing: -0.03em; }
+    h2 { font-size: 23px; line-height: 1.22; letter-spacing: -0.02em; }
+    h3 { font-size: 14px; }
+    p { font-size: 12.5px; line-height: 1.6; color: #3d4741; }
+    .muted { color: #6b736e; }
+    .kicker { margin: 3mm 0 6mm; max-width: 178mm; }
+
+    .cover {
+      background:
+        radial-gradient(1200px 700px at -10% -10%, #ffe8d2 0%, transparent 55%),
+        radial-gradient(900px 600px at 110% 0%, #d7efe4 0%, transparent 50%),
+        linear-gradient(180deg, #f8f3eb 0%, #efe6d8 100%);
+    }
+    .cover-mark { display: flex; align-items: center; gap: 10px; margin-bottom: 16mm; }
+    .logo {
+      width: 36px; height: 36px; border-radius: 10px; background: #2f5d50; color: #f7f2ea;
+      display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 15px;
+    }
+    .cover h1 { font-size: 40px; margin: 8px 0 10px; }
+    .cover .tag { font-size: 16px; color: #3d4741; max-width: 155mm; }
+    .pills { display: flex; gap: 7px; margin-top: 8mm; flex-wrap: wrap; }
+    .pill {
+      background: #fff; border: 1px solid #e4d9c8; border-radius: 999px;
+      padding: 6px 12px; font-size: 11.5px; color: #2f5d50; font-weight: 600;
+    }
+    .cover-foot {
+      margin-top: auto; display: flex; justify-content: space-between; align-items: flex-end;
+      border-top: 1px solid #e4d9c8; padding-top: 7mm;
+    }
+    .stat b { display: block; font-size: 20px; color: #2f5d50; }
+    .stat span { font-size: 11px; color: #6b736e; }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5mm; }
+    .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 4mm; }
+    .split { display: grid; grid-template-columns: 62mm 1fr; gap: 8mm; align-items: start; flex: 1; }
+    .split-wide { display: grid; grid-template-columns: 1fr 1fr; gap: 8mm; align-items: start; flex: 1; }
+    .phones { display: flex; gap: 7mm; justify-content: center; align-items: flex-start; flex: 1; }
+    .caption { text-align: center; font-size: 11px; color: #6b736e; margin-top: 3mm; font-weight: 600; }
+
+    .card {
+      background: #fffdf9; border: 1px solid #eadfcf; border-radius: 12px; padding: 5mm;
+      box-shadow: 0 8px 20px rgba(47, 93, 80, 0.04);
+    }
+    .card.dark { background: #2f5d50; color: #f7f2ea; border-color: #2f5d50; }
+    .card.dark p, .card.dark .muted { color: #d7e6e0; }
+    .num {
+      width: 24px; height: 24px; border-radius: 7px; background: #f3e3d4; color: #c45c26;
+      display: inline-flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; margin-bottom: 6px;
+    }
+    .quote {
+      background: #fff7ee; border-left: 4px solid #c45c26; padding: 4mm 5mm;
+      border-radius: 0 10px 10px 0; font-size: 13px; line-height: 1.65;
+    }
+    .footer {
+      margin-top: auto; padding-top: 4mm; display: flex; justify-content: space-between;
+      font-size: 10px; color: #8a918c; border-top: 1px solid #eadfcf;
+    }
+    .note { font-size: 11.5px; line-height: 1.55; color: #3d4741; margin-bottom: 4mm; }
+    .note b { color: #1f2a24; }
+
+    /* Phone chrome */
+    .ph {
+      width: 68mm; height: 138mm; background: #1c2420; border-radius: 20px; padding: 7px;
+      box-shadow: 0 14px 28px rgba(31, 42, 36, 0.18); flex-shrink: 0;
+    }
+    .ph.sm { width: 62mm; height: 128mm; }
+    .screen {
+      background: #f4efe6; border-radius: 15px; height: 100%; overflow: hidden;
+      display: flex; flex-direction: column; position: relative;
+    }
+    .sb {
+      display: flex; justify-content: space-between; font-size: 9px; color: #5c6560;
+      padding: 7px 12px 2px; font-weight: 700;
+    }
+    .body { padding: 4px 10px 8px; flex: 1; overflow: hidden; }
+    .app-title { font-size: 16px; font-weight: 800; letter-spacing: -0.03em; margin: 2px 0 8px; }
+    .sub { font-size: 9.5px; color: #6b736e; }
+    .chip {
+      display: inline-block; background: #dceee6; color: #2f5d50; border-radius: 99px;
+      padding: 2px 7px; font-size: 9px; font-weight: 700;
+    }
+    .chip.warn { background: #f8e4d4; color: #c45c26; }
+    .chip.gold { background: #f4e7c2; color: #8a6a12; }
+    .cell {
+      background: #fff; border: 1px solid #eadfcf; border-radius: 10px;
+      padding: 7px 8px; margin-bottom: 6px; font-size: 10.5px;
+    }
+    .cell.row { display: flex; justify-content: space-between; align-items: center; gap: 6px; }
+    .avatar {
+      width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center;
+      justify-content: center; font-size: 9px; font-weight: 800; color: #fff; flex-shrink: 0;
+    }
+    .a1 { background: #2f5d50; } .a2 { background: #c45c26; } .a3 { background: #4a6fa5; }
+    .btn {
+      background: #2f5d50; color: #f7f2ea; border-radius: 10px; text-align: center;
+      padding: 8px; font-size: 11px; font-weight: 700; margin-top: 6px;
+    }
+    .btn.ghost { background: #fff; color: #2f5d50; border: 1px solid #c9d9d2; }
+    .btn.orange { background: #c45c26; }
+    .tabs {
+      display: flex; background: #fff; border-top: 1px solid #eadfcf;
+      padding: 6px 4px 8px; font-size: 8px; color: #8a918c; text-align: center;
+    }
+    .tabs span { flex: 1; }
+    .tabs .on { color: #2f5d50; font-weight: 800; }
+    .bar { height: 6px; background: #efe6d8; border-radius: 99px; overflow: hidden; margin-top: 4px; }
+    .bar i { display: block; height: 100%; background: #2f5d50; }
+    .bar.orange i { background: #c45c26; }
+    .kpi { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 7px; }
+    .kpi .cell { margin: 0; }
+    .kpi b { display: block; font-size: 14px; }
+    .tiny { font-size: 9px; color: #6b736e; line-height: 1.35; }
+    .field { font-size: 9.5px; color: #6b736e; margin: 5px 0 3px; font-weight: 700; }
+    .input {
+      background: #fff; border: 1px solid #eadfcf; border-radius: 8px; padding: 6px 8px; font-size: 11px;
+    }
+    .people { display: flex; gap: 4px; }
+    .people .cell { margin: 0; padding: 5px 6px; font-size: 9px; font-weight: 700; }
+    .people .on { background: #2f5d50; color: #fff; border-color: #2f5d50; }
+    .cal { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; font-size: 8px; text-align: center; }
+    .cal b { display: block; color: #8a918c; margin-bottom: 3px; font-weight: 600; }
+    .slot { background: #fff; border: 1px solid #eadfcf; border-radius: 7px; padding: 5px 2px; }
+    .slot.me { background: #dceee6; border-color: #b7d4c8; }
+    .check { color: #2f5d50; font-weight: 800; }
+  </style>
+</head>
+<body>
+
+  <!-- 1 COVER -->
+  <section class="page cover">
+    <div class="pad">
+      <div class="cover-mark">
+        <div class="logo">Hz</div>
+        <div>
+          <div style="font-weight:800;font-size:14px;">Hezu</div>
+          <div class="muted" style="font-size:12px;">Roommate Life Steward</div>
+        </div>
+      </div>
+      <div class="eyebrow">Product Showcase · Mobile App</div>
+      <h1>Turn shared-house friction<br>into records you can check.</h1>
+      <p class="tag">A mobile app for young roommates: split bills, rotate chores, track shared supplies, and keep a signed house charter — in one home.</p>
+      <div class="pills">
+        <span class="pill">Split bills</span>
+        <span class="pill">Chore roster</span>
+        <span class="pill">Shared inventory</span>
+        <span class="pill">House charter</span>
+      </div>
+      <div class="phones" style="margin-top:8mm; flex:0;">
+        <div class="ph sm">
+          <div class="screen">
+            <div class="sb"><span>9:41</span><span>Hezu</span></div>
+            <div class="body">
+              <div class="chip">Sunlight House</div>
+              <div class="app-title">Today</div>
+              <div class="kpi">
+                <div class="cell"><span class="tiny">To settle</span><b>$210.50</b></div>
+                <div class="cell"><span class="tiny">On duty</span><b>Ryan</b></div>
+              </div>
+              <div class="cell row"><span>Tissue low</span><span class="chip warn">Buy</span></div>
+              <div class="cell row"><span>Charter v1.2</span><span class="chip">Signed</span></div>
+            </div>
+            <div class="tabs"><span class="on">Home</span><span>Bills</span><span>Chores</span><span>Stuff</span><span>House</span></div>
+          </div>
+        </div>
+        <div class="ph sm">
+          <div class="screen">
+            <div class="sb"><span>9:41</span><span>Bills</span></div>
+            <div class="body">
+              <div class="app-title">Who owes whom</div>
+              <div class="cell row"><span>Ryan → Mia</span><b style="color:#c45c26">$126.50</b></div>
+              <div class="cell row"><span>Cole → Mia</span><b style="color:#c45c26">$84.00</b></div>
+              <div class="btn">Settle net balances</div>
+            </div>
+            <div class="tabs"><span>Home</span><span class="on">Bills</span><span>Chores</span><span>Stuff</span><span>House</span></div>
+          </div>
+        </div>
+        <div class="ph sm">
+          <div class="screen">
+            <div class="sb"><span>9:41</span><span>Chores</span></div>
+            <div class="body">
+              <div class="app-title">This week</div>
+              <div class="cell row"><span>Kitchen · Fri</span><span class="chip">Cole</span></div>
+              <div class="cell row"><span>Bath · Today</span><span class="chip warn">Ryan</span></div>
+              <div class="cell row"><span>Trash · Done</span><span class="check">Mia ✓</span></div>
+            </div>
+            <div class="tabs"><span>Home</span><span>Bills</span><span class="on">Chores</span><span>Stuff</span><span>House</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="cover-foot">
+        <div class="stat"><b>5 tabs</b><span>One house, one app</span></div>
+        <div class="stat"><b>4 loops</b><span>Money · chores · stuff · rules</span></div>
+        <div class="stat"><b>Demo home</b><span>Sunlight House · 3 roommates</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 PROBLEM -->
+  <section class="page">
+    <div class="pad">
+      <div class="eyebrow">01 / Why this app</div>
+      <h2>Roommate conflict is usually<br>a record-keeping failure.</h2>
+      <p class="kicker">Rent, utilities, cleaning, toilet paper, and “we agreed on that” live in chat threads. Hezu turns them into four checkable loops.</p>
+      <div class="grid-2" style="margin-bottom:6mm;">
+        <div class="card"><div class="num">01</div><h3>Bills stay fuzzy</h3><p>Someone fronts the electric bill. Reimbursement lives in screenshots. Nobody knows the net number.</p></div>
+        <div class="card"><div class="num">02</div><h3>Chores drift</h3><p>A paper roster on the fridge goes stale. Swaps happen in chat and disappear.</p></div>
+        <div class="card"><div class="num">03</div><h3>Supplies vanish</h3><p>Shared goods have no stock count. The same person restocks, then quietly resents it.</p></div>
+        <div class="card"><div class="num">04</div><h3>Rules are oral</h3><p>Quiet hours and guest policy were “mentioned once.” New roommates never signed them.</p></div>
+      </div>
+      <div class="quote">Product bet: housemates do not need another chat. They need a shared operating system for money, duty, inventory, and consent.</div>
+      <div class="footer"><span>Hezu · Roommate Life Steward</span><span>02</span></div>
+    </div>
+  </section>
+
+  <!-- 3 IA + HOME -->
+  <section class="page">
+    <div class="pad">
+      <div class="eyebrow">02 / App map</div>
+      <h2>Five tabs. One household.</h2>
+      <p class="kicker">Every roommate, bill, chore, item, and clause belongs to the same house. Home only answers: who is on duty, who owes whom, and what is running out.</p>
+      <div class="phones">
+        <div>
+          <div class="ph">
+            <div class="screen">
+              <div class="sb"><span>9:41</span><span>●●●</span></div>
+              <div class="body">
+                <div class="sub">SUNLIGHT HOUSE</div>
+                <div class="app-title">Good evening, Mia</div>
+                <div class="kpi">
+                  <div class="cell"><span class="tiny">Harmony</span><b>86</b><div class="bar"><i style="width:86%"></i></div></div>
+                  <div class="cell"><span class="tiny">Shared spend</span><b>$4,862</b><span class="tiny">this month</span></div>
+                </div>
+                <div class="tiny" style="margin:2px 0 5px;font-weight:700;">TODAY</div>
+                <div class="cell">
+                  <div class="row" style="display:flex;justify-content:space-between;"><span>Bathroom duty</span><span class="chip warn">Ryan</span></div>
+                  <div class="tiny" style="margin-top:3px;">You are off today · trash already logged</div>
+                </div>
+                <div class="cell row"><span><b>2 balances open</b><br><span class="tiny">Ryan and Cole owe you</span></span><b style="color:#c45c26">$210</b></div>
+                <div class="cell row"><span><b>Tissues</b><br><span class="tiny">1 pack left · Ryan to buy</span></span><span class="chip warn">Low</span></div>
+                <div class="cell row"><span><b>Charter v1.2</b><br><span class="tiny">3 / 3 confirmed</span></span><span class="chip">OK</span></div>
+              </div>
+              <div class="tabs"><span class="on">Home</span><span>Bills</span><span>Chores</span><span>Stuff</span><span>House</span></div>
+            </div>
+          </div>
+          <div class="caption">Home · daily briefing</div>
+        </div>
+        <div>
+          <div class="ph">
+            <div class="screen">
+              <div class="sb"><span>9:41</span><span>●●●</span></div>
+              <div class="body">
+                <div class="app-title">House</div>
+                <div class="cell row"><span><span class="avatar a1">M</span> Mia Lin</span><span class="tiny">Admin</span></div>
+                <div class="cell row"><span><span class="avatar a2">R</span> Ryan Zhou</span><span class="tiny">Member</span></div>
+                <div class="cell row"><span><span class="avatar a3">C</span> Cole Chen</span><span class="tiny">Member</span></div>
+                <div class="field">RENT DAY</div>
+                <div class="input">1st of each month</div>
+                <div class="field">INVITE</div>
+                <div class="input">Code · SUN-8391</div>
+                <div class="btn ghost">Share invite link</div>
+              </div>
+              <div class="tabs"><span>Home</span><span>Bills</span><span>Chores</span><span>Stuff</span><span class="on">House</span></div>
+            </div>
+          </div>
+          <div class="caption">House · members &amp; invite</div>
+        </div>
+        <div style="width:52mm; padding-top:4mm;">
+          <div class="card" style="margin-bottom:4mm;"><h3>Home</h3><p>Today’s duty, open balances, low stock, unsigned rules.</p></div>
+          <div class="card" style="margin-bottom:4mm;"><h3>Bills</h3><p>Log spend, split, net who-owes-whom, settle.</p></div>
+          <div class="card" style="margin-bottom:4mm;"><h3>Chores</h3><p>Rotate four zones, check in, request a swap.</p></div>
+          <div class="card" style="margin-bottom:4mm;"><h3>Stuff</h3><p>Stock, consume, remind, restock into a bill.</p></div>
+          <div class="card"><h3>House</h3><p>People, charter versions, house settings.</p></div>
+        </div>
+      </div>
+      <div class="footer"><span>Hezu · Roommate Life Steward</span><span>03</span></div>
+    </div>
+  </section>
+
+  <!-- 4 BILLS LIST + ADD -->
+  <section class="page">
+    <div class="pad">
+      <div class="eyebrow">03 / Split bills</div>
+      <h2>Log it once. Split it fairly.</h2>
+      <p class="kicker">Rent, utilities, groceries, takeout. Pick who paid, who shares, equal or custom. Every entry is a receipt the house can reopen.</p>
+      <div class="phones">
+        <div>
+          <div class="ph">
+            <div class="screen">
+              <div class="sb"><span>9:41</span><span>●●●</span></div>
+              <div class="body">
+                <div class="app-title">Bills</div>
+                <div class="kpi">
+                  <div class="cell"><span class="tiny">Open</span><b>$210.50</b></div>
+                  <div class="cell"><span class="tiny">Cleared</span><b>3</b></div>
+                </div>
+                <div class="cell">
+                  <div style="display:flex;justify-content:space-between;"><b>September electric</b><b>$267.00</b></div>
+                  <div class="tiny">Mia paid · split 3 ways · Utilities</div>
+                </div>
+                <div class="cell">
+                  <div style="display:flex;justify-content:space-between;"><b>Tissues &amp; bags</b><b>$42.00</b></div>
+                  <div class="tiny">Cole paid · Daily · pending confirm</div>
+                </div>
+                <div class="cell">
+                  <div style="display:flex;justify-content:space-between;"><b>October rent</b><b>$4,200</b></div>
+                  <div class="tiny">Landlord · each $1,400 · cleared</div>
+                </div>
+                <div class="btn">+ Add expense</div>
+              </div>
+              <div class="tabs"><span>Home</span><span class="on">Bills</span><span>Chores</span><span>Stuff</span><span>House</span></div>
+            </div>
+          </div>
+          <div class="caption">Ledger</div>
+        </div>
+        <div>
+          <div class="ph">
+            <div class="screen">
+              <div class="sb"><span>9:41</span><span>●●●</span></div>
+              <div class="body">
+                <div class="app-title">New expense</div>
+                <div class="field">TITLE</div>
+                <div class="input">September electric</div>
+                <div class="field">AMOUNT</div>
+                <div class="input">$267.00</div>
+                <div class="field">PAID BY</div>
+                <div class="people"><div class="cell on">Mia</div><div class="cell">Ryan</div><div class="cell">Cole</div></div>
+                <div class="field">SPLIT WITH</div>
+                <div class="people"><div class="cell on">Mia</div><div class="cell on">Ryan</div><div class="cell on">Cole</div></div>
+                <div class="field">METHOD</div>
+                <div class="people"><div class="cell on">Equal</div><div class="cell">Custom %</div></div>
+                <div class="tiny" style="margin-top:8px;">Each share $89.00</div>
+                <div class="btn">Save to house ledger</div>
+              </div>
+              <div class="tabs"><span>Home</span><span class="on">Bills</span><span>Chores</span><span>Stuff</span><span>House</span></div>
+            </div>
+          </div>
+          <div class="caption">Add expense</div>
+        </div>
+        <div>
+          <div class="ph">
+            <div class="screen">
+              <div class="sb"><span>9:41</span><span>●●●</span></div>
+              <div class="body">
+                <div class="chip">Utilities</div>
+                <div class="app-title">$267.00</div>
+                <div class="tiny" style="margin-bottom:8px;">Meter read · 23 Sep · paid by Mia</div>
+                <div class="cell row"><span><span class="avatar a1">M</span> Mia</span><span class="check">paid $267</span></div>
+                <div class="cell row"><span><span class="avatar a2">R</span> Ryan</span><span>owes $89.00</span></div>
+                <div class="cell row"><span><span class="avatar a3">C</span> Cole</span><span>owes $89.00</span></div>
+                <div class="cell"><span class="tiny">NOTE</span><div>Peak-hour surcharge included. Photo of bill attached.</div></div>
+                <div class="btn ghost">Request confirmations</div>
+              </div>
+              <div class="tabs"><span>Home</span><span class="on">Bills</span><span>Chores</span><span>Stuff</span><span>House</span></div>
+            </div>
+          </div>
+          <div class="caption">Expense detail</div>
+        </div>
+      </div>
+      <div class="footer"><span>Hezu · Roommate Life Steward</span><span>04</span></div>
+    </div>
+  </section>
+
+  <!-- 5 SETTLEMENT -->
+  <section class="page">
+    <div class="pad">
+      <div class="eyebrow">04 / Net settlement</div>
+      <h2>Do not ping-pong 20 transfers.<br>Settle the net.</h2>
+      <p class="kicker">Hezu collapses many IOUs into the fewest payments. Marking settled writes an audit line — arguments become a history, not a feeling.</p>
+      <div class="phones">
+        <div>
+          <div class="ph">
+            <div class="screen">
+              <div class="sb"><span>9:41</span><span>●●●</span></div>
+              <div class="body">
+                <div class="app-title">Who owes whom</div>
+                <div class="cell" style="background:#fff7ee;border-color:#f0d3bc;">
+                  <div class="tiny">SUGGESTED PATH</div>
+                  <div style="margin:4px 0;"><b>Ryan → Mia $126.50</b></div>
+                  <div><b>Cole → Mia $84.00</b></div>
+                </div>
+                <div class="cell row"><span>Ryan balance</span><b style="color:#c45c26">−$126.50</b></div>
+                <div class="cell row"><span>Cole balance</span><b style="color:#c45c26">−$84.00</b></div>
+                <div class="cell row"><span>Mia balance</span><b style="color:#2f5d50">+$210.50</b></div>
+                <div class="btn">Generate settle plan</div>
+                <div class="btn ghost">Export monthly PDF</div>
+              </div>
+              <div class="tabs"><span>Home</span><span class="on">Bills</span><span>Chores</span><span>Stuff</span><span>House</span></div>
+            </div>
+          </div>
+          <div class="caption">Balances</div>
+        </div>
+        <div>
+          <div class="ph">
+            <div class="screen">
+              <div class="sb"><span>9:41</span><span>●●●</span></div>
+              <div class="body">
+                <div class="app-title">Confirm settle</div>
+                <div class="cell">
+                  <div class="tiny">PAYMENT 1 OF 2</div>
+                  <div style="display:flex;align-items:center;gap:8px;margin:8px 0;">
+                    <span class="avatar a2">R</span> <span>→</span> <span class="avatar a1">M</span>
+                  </div>
+                  <b style="font-size:18px;">$126.50</b>
+                  <div class="tiny">Covers electric share + groceries</div>
+                </div>
+                <div class="field">METHOD</div>
+                <div class="people"><div class="cell on">Alipay</div><div class="cell">WeChat</div><div class="cell">Cash</div></div>
+                <div class="btn orange">Mark as paid</div>
+                <div class="tiny" style="margin-top:8px;">Mia will be asked to confirm receipt.</div>
+              </div>
+              <div class="tabs"><span>Home</span><span class="on">Bills</span><span>Chores</span><span>Stuff</span><span>House</span></div>
+            </div>
+          </div>
+          <div class="caption">Mark paid</div>
+        </div>
+        <div>
+          <div class="ph">
+            <div class="screen">
+              <div class="sb"><span>9:41</span><span>●●●</span></div>
+              <div class="body">
+                <div class="chip">Cleared</div>
+                <div class="app-title">October close</div>
+                <div class="cell row"><span>Transfers</span><b>2</b></div>
+                <div class="cell row"><span>Shared spend</span><b>$4,862</b></div>
+                <div class="cell row"><span>Your net</span><b class="check">+$210.50</b></div>
+                <div class="cell"><span class="tiny">TIMELINE</span>
+                  <div class="tiny" style="margin-top:4px;">28 Oct · Ryan paid Mia $126.50<br>28 Oct · Cole paid Mia $84.00<br>28 Oct · Month archived</div>
+                </div>
+                <div class="btn ghost">Share summary</div>
+              </div>
+              <div class="tabs"><span>Home</span><span class="on">Bills</span><span>Chores</span><span>Stuff</span><span>House</span></div>
+            </div>
+          </div>
+          <div class="caption">Month archive</div>
+        </div>
+      </div>
+      <div class="footer"><span>Hezu · Roommate Life Steward</span><span>05</span></div>
+    </div>
+  </section>
+
+  <!-- 6 CHORES -->
+  <section class="page">
+    <div class="pad">
+      <div class="eyebrow">05 / Chore roster</div>
+      <h2>Four zones. A fair rotation.<br>Check-in is the proof.</h2>
+      <p class="kicker">Kitchen, bathroom, living room, trash run on independent wheels so one person never “owns the house” and the living room never goes orphaned.</p>
+      <div class="phones">
+        <div>
+          <div class="ph">
+            <div class="screen">
+              <div class="sb"><span>9:41</span><span>●●●</span></div>
+              <div class="body">
+                <div class="app-title">This week</div>
+                <div class="cal">
+                  <div><b>Mon</b><div class="slot">Mia<br>Kitchen</div></div>
+                  <div><b>Wed</b><div class="slot">Ryan<br>Bath</div></div>
+                  <div><b>Fri</b><div class="slot me">Cole<br>Living</div></div>
+                  <div><b>Sun</b><div class="slot">Mia<br>Trash</div></div>
+                </div>
+                <div class="field" style="margin-top:8px;">TODAY</div>
+                <div class="cell">
+                  <b>Bathroom · Ryan</b>
+                  <div class="tiny">Sink, floor, bin · due 22:00</div>
+                </div>
+                <div class="cell row"><span>Kitchen streak</span><span>Cole 2 weeks</span></div>
+                <div class="cell row"><span>Missed last week</span><span class="chip warn">0</span></div>
+              </div>
+              <div class="tabs"><span>Home</span><span>Bills</span><span class="on">Chores</span><span>Stuff</span><span>House</span></div>
+            </div>
+          </div>
+          <div class="caption">Weekly board</div>
+        </div>
+        <div>
+          <div class="ph">
+            <div class="screen">
+              <div class="sb"><span>9:41</span><span>●●●</span></div>
+              <div class="body">
+                <div class="chip">Your turn</div>
+                <div class="app-title">Kitchen check-in</div>
+                <div class="cell">Stove · sink · food waste</div>
+                <div class="field">NOTE (OPTIONAL)</div>
+                <div class="input">Wiped stove, took compost out.</div>
+                <div class="people" style="margin-top:8px;"><div class="cell">Skip photo</div><div class="cell on">Add note</div></div>
+                <div class="btn">Mark done</div>
+                <div class="btn ghost">Ask to swap</div>
+                <div class="tiny" style="margin-top:8px;">Missed check-ins surface on Home instead of a group-chat call-out.</div>
+              </div>
+              <div class="tabs"><span>Home</span><span>Bills</span><span class="on">Chores</span><span>Stuff</span><span>House</span></div>
+            </div>
+          </div>
+          <div class="caption">Check-in</div>
+        </div>
+        <div>
+          <div class="ph">
+            <div class="screen">
+              <div class="sb"><span>9:41</span><span>●●●</span></div>
+              <div class="body">
+                <div class="app-title">Swap request</div>
+                <div class="cell">
+                  <div class="tiny">FROM</div>
+                  <b>Ryan · Bathroom · Fri</b>
+                </div>
+                <div class="cell">
+                  <div class="tiny">OFFER</div>
+                  <b>Mia · Kitchen · Sun</b>
+                </div>
+                <div class="tiny" style="margin:6px 0;">Reason: client dinner until 21:30. Coverage stays complete this week.</div>
+                <div class="btn">Accept swap</div>
+                <div class="btn ghost">Decline</div>
+                <div class="cell" style="margin-top:8px;"><span class="tiny">HISTORY</span><div class="tiny" style="margin-top:3px;">Last swap: Cole ↔ Mia · 9 Oct</div></div>
+              </div>
+              <div class="tabs"><span>Home</span><span>Bills</span><span class="on">Chores</span><span>Stuff</span><span>House</span></div>
+            </div>
+          </div>
+          <div class="caption">Swap with a trace</div>
+        </div>
+      </div>
+      <div class="footer"><span>Hezu · Roommate Life Steward</span><span>06</span></div>
+    </div>
+  </section>
+
+  <!-- 7 STUFF -->
+  <section class="page">
+    <div class="pad">
+      <div class="eyebrow">06 / Shared inventory</div>
+      <h2>Tap when you use it.<br>Remind before it runs out.</h2>
+      <p class="kicker">Invisible housework becomes a number: who bought it, how much is left, who buys next. Restock can post straight into Bills.</p>
+      <div class="phones">
+        <div>
+          <div class="ph">
+            <div class="screen">
+              <div class="sb"><span>9:41</span><span>●●●</span></div>
+              <div class="body">
+                <div class="app-title">Shared stuff</div>
+                <div class="cell">
+                  <div style="display:flex;justify-content:space-between;"><b>Tissues</b><span class="chip warn">Low</span></div>
+                  <div class="bar orange"><i style="width:25%"></i></div>
+                  <div class="tiny">1 pack · Ryan next</div>
+                </div>
+                <div class="cell">
+                  <div style="display:flex;justify-content:space-between;"><b>Laundry detergent</b><span class="chip">OK</span></div>
+                  <div class="bar"><i style="width:70%"></i></div>
+                  <div class="tiny">70% · Mia next</div>
+                </div>
+                <div class="cell">
+                  <div style="display:flex;justify-content:space-between;"><b>Trash bags</b><span class="chip">OK</span></div>
+                  <div class="bar"><i style="width:60%"></i></div>
+                  <div class="tiny">18 left · linked to trash chore</div>
+                </div>
+                <div class="cell">
+                  <div style="display:flex;justify-content:space-between;"><b>Oyster sauce</b><span class="chip gold">Expiring</span></div>
+                  <div class="tiny">11 days left</div>
+                </div>
+                <div class="btn">+ Register item</div>
+              </div>
+              <div class="tabs"><span>Home</span><span>Bills</span><span>Chores</span><span class="on">Stuff</span><span>House</span></div>
+            </div>
+          </div>
+          <div class="caption">Inventory list</div>
+        </div>
+        <div>
+          <div class="ph">
+            <div class="screen">
+              <div class="sb"><span>9:41</span><span>●●●</span></div>
+              <div class="body">
+                <div class="chip warn">Below threshold</div>
+                <div class="app-title">Tissues</div>
+                <div class="cell row"><span>Stock</span><b>1 pack</b></div>
+                <div class="cell row"><span>Alert at</span><b>2 packs</b></div>
+                <div class="cell row"><span>Last buy</span><b>Cole · 12 Oct</b></div>
+                <div class="cell row"><span>Next buyer</span><b>Ryan</b></div>
+                <div class="btn">Consume 1</div>
+                <div class="btn orange">I restocked</div>
+                <div class="tiny" style="margin-top:8px;">Restock opens a prefilled Daily expense for AA.</div>
+              </div>
+              <div class="tabs"><span>Home</span><span>Bills</span><span>Chores</span><span class="on">Stuff</span><span>House</span></div>
+            </div>
+          </div>
+          <div class="caption">Item detail</div>
+        </div>
+        <div>
+          <div class="ph">
+            <div class="screen">
+              <div class="sb"><span>9:41</span><span>●●●</span></div>
+              <div class="body">
+                <div class="app-title">Restock → bill</div>
+                <div class="input">Tissues, 3 packs</div>
+                <div class="field">AMOUNT</div>
+                <div class="input">$28.50</div>
+                <div class="field">PAID BY</div>
+                <div class="people"><div class="cell">Mia</div><div class="cell on">Ryan</div><div class="cell">Cole</div></div>
+                <div class="field">SPLIT</div>
+                <div class="people"><div class="cell on">All 3</div></div>
+                <div class="cell"><span class="tiny">STOCK UPDATE</span><div>1 → 4 packs · alert cleared</div></div>
+                <div class="btn">Save item + ledger</div>
+              </div>
+              <div class="tabs"><span>Home</span><span>Bills</span><span>Chores</span><span class="on">Stuff</span><span>House</span></div>
+            </div>
+          </div>
+          <div class="caption">Restock closes the loop</div>
+        </div>
+      </div>
+      <div class="footer"><span>Hezu · Roommate Life Steward</span><span>07</span></div>
+    </div>
+  </section>
+
+  <!-- 8 CHARTER -->
+  <section class="page">
+    <div class="pad">
+      <div class="eyebrow">07 / House charter</div>
+      <h2>Rules are a version<br>people actually sign.</h2>
+      <p class="kicker">Oral agreements cannot bind a new roommate or settle a fight. Hezu treats the charter as propose → confirm → amend, with a version number.</p>
+      <div class="phones">
+        <div>
+          <div class="ph">
+            <div class="screen">
+              <div class="sb"><span>9:41</span><span>●●●</span></div>
+              <div class="body">
+                <div class="chip">Active</div>
+                <div class="app-title">Charter v1.2</div>
+                <div class="tiny" style="margin-bottom:8px;">Confirmed 3 / 3 · locked</div>
+                <div class="cell"><b>1.</b> Dishes leave the sink before midnight.</div>
+                <div class="cell"><b>2.</b> Quiet hours 23:00 weekdays, 24:00 weekends.</div>
+                <div class="cell"><b>3.</b> Overnight guests: post in House, max two nights.</div>
+                <div class="cell"><b>4.</b> Shared goods: log use; restock in 48h if low.</div>
+                <div class="cell"><b>5.</b> Confirm splits in 3 days; settle net at month end.</div>
+              </div>
+              <div class="tabs"><span>Home</span><span>Bills</span><span>Chores</span><span>Stuff</span><span class="on">House</span></div>
+            </div>
+          </div>
+          <div class="caption">Living rules</div>
+        </div>
+        <div>
+          <div class="ph">
+            <div class="screen">
+              <div class="sb"><span>9:41</span><span>●●●</span></div>
+              <div class="body">
+                <div class="app-title">Sign charter</div>
+                <div class="cell row"><span><span class="avatar a1">M</span> Mia</span><span class="check">Signed</span></div>
+                <div class="cell row"><span><span class="avatar a2">R</span> Ryan</span><span class="check">Signed</span></div>
+                <div class="cell row"><span><span class="avatar a3">C</span> Cole</span><span class="chip warn">Required</span></div>
+                <div class="tiny" style="margin:8px 0;">New members cannot skip the current version. Unsigned clauses stay on Home.</div>
+                <div class="btn">I agree to v1.2</div>
+                <div class="btn ghost">Propose an edit</div>
+              </div>
+              <div class="tabs"><span>Home</span><span>Bills</span><span>Chores</span><span>Stuff</span><span class="on">House</span></div>
+            </div>
+          </div>
+          <div class="caption">Signatures</div>
+        </div>
+        <div>
+          <div class="ph">
+            <div class="screen">
+              <div class="sb"><span>9:41</span><span>●●●</span></div>
+              <div class="body">
+                <div class="chip gold">Amendment</div>
+                <div class="app-title">Propose v1.3</div>
+                <div class="field">CLAUSE</div>
+                <div class="input">Quiet hours start at 22:30 before workdays.</div>
+                <div class="field">VOTE</div>
+                <div class="cell row"><span>Mia</span><span class="check">Yes</span></div>
+                <div class="cell row"><span>Ryan</span><span class="tiny">Pending</span></div>
+                <div class="cell row"><span>Cole</span><span class="tiny">Pending</span></div>
+                <div class="tiny">A disputed clause votes alone. The rest of v1.2 stays in force.</div>
+                <div class="btn ghost">View v1.1 history</div>
+              </div>
+              <div class="tabs"><span>Home</span><span>Bills</span><span>Chores</span><span>Stuff</span><span class="on">House</span></div>
+            </div>
+          </div>
+          <div class="caption">Amend without a fight</div>
+        </div>
+      </div>
+      <div class="footer"><span>Hezu · Roommate Life Steward</span><span>08</span></div>
+    </div>
+  </section>
+
+  <!-- 9 DAY IN THE APP -->
+  <section class="page">
+    <div class="pad">
+      <div class="eyebrow">08 / A day in the app</div>
+      <h2>Thirty seconds, not a new chore.</h2>
+      <p class="kicker">Mia opens Home before leaving. The app tells her what is hers today, what the house is missing, and whether anyone still owes money.</p>
+      <div class="grid-2" style="margin-bottom:5mm;">
+        <div class="card"><h3>08:10 · Heading out</h3><p>Home: Ryan on bathroom duty. Tissues low — Ryan buys. She is owed two balances; settle tonight.</p></div>
+        <div class="card"><h3>19:40 · After groceries</h3><p>Trash bags hit 3. She taps Consume. Home shows a restock card that can become a Daily bill.</p></div>
+        <div class="card"><h3>21:15 · Electric arrives</h3><p>Mia logs $267, split three ways. Ryan and Cole get a confirm card. Net updates; no instant transfer.</p></div>
+        <div class="card"><h3>Month-end · Close</h3><p>Two payments only: Ryan $126.50, Cole $84. Mark paid. October archives.</p></div>
+      </div>
+      <div class="phones" style="flex:0;">
+        <div>
+          <div class="ph sm">
+            <div class="screen">
+              <div class="sb"><span>8:10</span><span>Home</span></div>
+              <div class="body">
+                <div class="app-title" style="font-size:14px;">Before work</div>
+                <div class="cell row"><span>Duty</span><span class="chip warn">Ryan · Bath</span></div>
+                <div class="cell row"><span>Tissues</span><span class="chip warn">Low</span></div>
+                <div class="cell row"><span>Owed to you</span><b>$210</b></div>
+              </div>
+              <div class="tabs"><span class="on">Home</span><span>Bills</span><span>Chores</span><span>Stuff</span><span>House</span></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="ph sm">
+            <div class="screen">
+              <div class="sb"><span>19:40</span><span>Stuff</span></div>
+              <div class="body">
+                <div class="app-title" style="font-size:14px;">Bags · 3 left</div>
+                <div class="btn">Consume 1</div>
+                <div class="cell" style="margin-top:8px;"><span class="tiny">ALERT</span><div>Below 8 · Cole next buy</div></div>
+              </div>
+              <div class="tabs"><span>Home</span><span>Bills</span><span>Chores</span><span class="on">Stuff</span><span>House</span></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="ph sm">
+            <div class="screen">
+              <div class="sb"><span>21:15</span><span>Bills</span></div>
+              <div class="body">
+                <div class="app-title" style="font-size:14px;">Electric $267</div>
+                <div class="tiny">Waiting on Ryan, Cole</div>
+                <div class="btn ghost">Nudge</div>
+              </div>
+              <div class="tabs"><span>Home</span><span class="on">Bills</span><span>Chores</span><span>Stuff</span><span>House</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer"><span>Hezu · Roommate Life Steward</span><span>09</span></div>
+    </div>
+  </section>
+
+  <!-- 10 PRINCIPLES + CLOSE -->
+  <section class="page cover">
+    <div class="pad">
+      <div class="eyebrow">09 / How to demo</div>
+      <h2>Walk the four loops on one house.</h2>
+      <p class="kicker">Demo home: Sunlight House · Mia Lin, Ryan Zhou, Cole Chen. Start on Home, then Bills → Chores → Stuff → House charter.</p>
+      <div class="grid-2" style="margin-bottom:6mm;">
+        <div class="card"><h3>Success looks like</h3><p>Anyone can name their share of a bill. Each zone has an owner this week. At least one supply alerts before it hits zero. The charter has a version and signatures.</p></div>
+        <div class="card"><h3>Design rules</h3><p>The house is the only container. Records beat social feed. Show net balances first. Every reminder names who acts.</p></div>
+      </div>
+      <div class="phones" style="flex:0;">
+        <div class="ph sm">
+          <div class="screen">
+            <div class="sb"><span>9:41</span><span>Hezu</span></div>
+            <div class="body">
+              <div class="chip">You are owed</div>
+              <div class="app-title">$210.50</div>
+              <div class="btn">Settle</div>
+            </div>
+          </div>
+        </div>
+        <div class="ph sm">
+          <div class="screen">
+            <div class="sb"><span>9:41</span><span>Hezu</span></div>
+            <div class="body">
+              <div class="chip warn">Today</div>
+              <div class="app-title">Ryan · Bath</div>
+              <div class="btn">Check in</div>
+            </div>
+          </div>
+        </div>
+        <div class="ph sm">
+          <div class="screen">
+            <div class="sb"><span>9:41</span><span>Hezu</span></div>
+            <div class="body">
+              <div class="chip warn">Low stock</div>
+              <div class="app-title">Tissues</div>
+              <div class="btn orange">Ryan buys</div>
+            </div>
+          </div>
+        </div>
+        <div class="ph sm">
+          <div class="screen">
+            <div class="sb"><span>9:41</span><span>Hezu</span></div>
+            <div class="body">
+              <div class="chip">v1.2</div>
+              <div class="app-title">3 / 3 signed</div>
+              <div class="btn ghost">Open charter</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cover-foot">
+        <div>
+          <div class="logo" style="margin-bottom:8px;">Hz</div>
+          <div style="font-weight:800;">Hezu · Roommate Life Steward</div>
+          <p class="muted">Money checks out. Chores rotate. Supplies refill. Rules get signatures.</p>
+        </div>
+        <div style="text-align:right;">
+          <p><b>10 pages · A4</b></p>
+          <p class="muted">English product + mobile UI showcase</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>
